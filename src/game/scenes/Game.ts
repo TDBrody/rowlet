@@ -1,35 +1,42 @@
-import { Scene } from 'phaser';
+import Phaser from 'phaser';
 
-export class Game extends Scene
-{
-    camera: Phaser.Cameras.Scene2D.Camera;
-    background: Phaser.GameObjects.Image;
-    msg_text : Phaser.GameObjects.Text;
-
-    constructor ()
-    {
-        super('Game');
+const config: Phaser.Types.Core.GameConfig = {
+    type: Phaser.AUTO,
+    width: 800,
+    height: 600,
+    scene: {
+        preload: preload,
+        create: create,
+        update: update
     }
+};
 
-    create ()
-    {
-        this.camera = this.cameras.main;
-        this.camera.setBackgroundColor(0x00ff00);
+const game = new Phaser.Game(config);
 
-        this.background = this.add.image(512, 384, 'background');
-        this.background.setAlpha(0.5);
+function preload(this: Phaser.Scene) {
+    // Load the sprite sheet
+    this.load.spritesheet('rowlet', 'assets/Rowlet-Sheet.png', {
+        frameWidth: 100,
+        frameHeight: 100
+    });
+}
 
-        this.msg_text = this.add.text(512, 384, 'Make something fun!\nand share it with us:\nsupport@phaser.io', {
-            fontFamily: 'Arial Black', fontSize: 38, color: '#ffffff',
-            stroke: '#000000', strokeThickness: 8,
-            align: 'center'
-        });
-        this.msg_text.setOrigin(0.5);
+function create(this: Phaser.Scene) {
+    // Add Rowlet sprite to the center of the screen
+    const rowlet = this.add.sprite(400, 300, 'rowlet');
 
-        this.input.once('pointerdown', () => {
+    // Create an animation from the sprite sheet
+    this.anims.create({
+        key: 'fly',
+        frames: this.anims.generateFrameNumbers('rowlet', { start: 0, end: 10 }),
+        frameRate: 10,
+        repeat: -1
+    });
 
-            this.scene.start('GameOver');
+    // Play the animation
+    rowlet.play('fly');
+}
 
-        });
-    }
+function update(this: Phaser.Scene) {
+    // Any updates to the game loop can go here
 }
