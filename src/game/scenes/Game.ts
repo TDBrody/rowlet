@@ -14,7 +14,6 @@ const config: Phaser.Types.Core.GameConfig = {
 const game = new Phaser.Game(config);
 
 function preload(this: Phaser.Scene) {
-    // Load the sprite sheet
     this.load.spritesheet('rowlet', 'assets/Rowlet-Sheet.png', {
         frameWidth: 100,
         frameHeight: 100
@@ -22,10 +21,8 @@ function preload(this: Phaser.Scene) {
 }
 
 function create(this: Phaser.Scene) {
-    // Add Rowlet sprite to the center of the screen
     const rowlet = this.add.sprite(400, 300, 'rowlet');
 
-    // Create an animation from the sprite sheet
     this.anims.create({
         key: 'fly',
         frames: this.anims.generateFrameNumbers('rowlet', { start: 0, end: 10 }),
@@ -33,7 +30,6 @@ function create(this: Phaser.Scene) {
         repeat: -1
     });
 
-    // Play the animation
     rowlet.play('fly');
 }
 
